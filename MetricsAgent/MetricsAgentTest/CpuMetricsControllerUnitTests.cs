@@ -29,11 +29,13 @@ namespace MetricsAgentTest
         {
             //ставим заглушку
             _mock.Setup(repository => repository.Create(It.IsAny<CpuMetrics>())).Verifiable();
-            var result = _controller.Create(new MetricsAgent.Requests.CpuMetricsCreateRequest
-            {
-                Time = TimeSpan.FromSeconds(1),
-                Value = 50
-            });
+            var result =
+                _controller.Create(
+                    new MetricsAgent.Requests.CpuMetricsCreateRequest
+                    {
+                        Time = TimeSpan.FromSeconds(1),
+                        Value = 50
+                    });
             _mock.Verify(repository => repository.Create(It.IsAny<CpuMetrics>()),Times.AtMostOnce());
         }
 

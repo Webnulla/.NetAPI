@@ -15,17 +15,22 @@ namespace MetricsAgent.Jobs
         public CpuMetricJob(ICpuMetricsRepository repository)
         {
             _repository = repository;
-            _cpuPerformanceCounter = new PerformanceCounter("Processor", "% Processor Time", "Total");
+            _cpuPerformanceCounter = new PerformanceCounter
+            (
+                "Processor",
+                "% Processor Time",
+                "_Total"
+            );
         }
 
         public Task Execute(IJobExecutionContext context)
         {
             var cpuUsageInPercents = Convert.ToInt32(_cpuPerformanceCounter.NextValue());
             var time = TimeSpan.FromSeconds(DateTimeOffset.UtcNow.ToUnixTimeSeconds());
-            _repository.Create(new Model.CpuMetrics 
-            { 
-                Time = time, 
-                Value = cpuUsageInPercents 
+            _repository.Create(new Model.CpuMetrics
+            {
+                Time = time,
+                Value = cpuUsageInPercents
             });
             return Task.CompletedTask;
         }

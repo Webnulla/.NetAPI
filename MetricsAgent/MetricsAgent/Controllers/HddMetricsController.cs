@@ -28,7 +28,7 @@ namespace MetricsAgent.Controllers
         [HttpGet("agent/{agentId}/from/{fromTime}/to/{toTime}")]
         public IActionResult GetMetricsFromAgent([FromRoute] int agentId, [FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
         {
-            _logger.LogError(1, "Working....");
+            _logger.LogInformation(1, "Working....");
             return Ok();
         }
 
@@ -36,7 +36,7 @@ namespace MetricsAgent.Controllers
         public IActionResult GetMetricsByPercentileFromAgent([FromRoute] int agentId, [FromRoute] TimeSpan fromTime,
             [FromRoute] TimeSpan toTime)
         {
-            _logger.LogError(1, "Working....");
+            _logger.LogInformation(1, "Working....");
             return Ok();
         }
 

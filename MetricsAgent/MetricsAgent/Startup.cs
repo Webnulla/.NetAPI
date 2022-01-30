@@ -80,6 +80,8 @@ namespace MetricsAgent
             services.AddSingleton(new JobSchedule(
                 jobType: typeof(DotNetMetricJob),
                 cronExpression: "0/5 * * * * ?"));
+            
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -88,6 +90,12 @@ namespace MetricsAgent
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "API агент");
+                    c.RoutePrefix = String.Empty;
+                });
             }
 
             app.UseHttpsRedirection();

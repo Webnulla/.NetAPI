@@ -14,15 +14,33 @@ namespace MetricsAgent.Jobs
         public NetworkMetricJob(INetworkMetricsRepository repository)
         {
             _repository = repository;
-            _networkPerformanceCounter = new PerformanceCounter("Network Interface", "Bytes Received/sec");
         }
 
         public Task Execute(IJobExecutionContext context)
         {
-            var networkSpeed = Convert.ToInt32(_networkPerformanceCounter.NextValue());
+            PerformanceCounterCategory category = new PerformanceCounterCategory("Network Interface");
+
+            String[] adapterName = category.GetInstanceNames();
+
+            int networkSpeed = 0;
+
+            foreach (var item in adapterName)
+            {
+                _networkPerformanceCounter = new PerformanceCounter
+                (
+                    "Network Interface",
+                    "Bytes Received/sec",
+                    item
+                );
+
+                networkSpeed += Convert.ToInt32(_networkPerformanceCounter.NextValue());
+            }
+
+            var time = TimeSpan.FromSeconds(DateTimeOffset.UtcNow.ToUnixTimeSeconds());
             _repository.Create(new Model.NetworkMetrics
             {
-                Value = networkSpeed
+                Value = networkSpeed,
+                Time = time
             });
             return Task.CompletedTask;
         }
