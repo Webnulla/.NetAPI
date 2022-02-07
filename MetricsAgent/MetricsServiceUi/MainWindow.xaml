@@ -1,0 +1,23 @@
+﻿<Window x:Class="MetricsServiceUi.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MetricsServiceUi"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="800" Width="1600">
+    <Grid>
+        <StackPanel>
+            <Canvas>
+                <local:MetricsUi Grid.Column="0" Grid.Row="0" x:Name="CpuChart"></local:MetricsUi>
+                <Button Canvas.Left="390" Canvas.Top="420" Width="100" Height="50" Click="Button_Click">Cpu Load</Button>
+                <Button Canvas.Left="500" Canvas.Top="420" Width="100" Height="50" Click="RamButton_Click">Ram Load</Button>
+                <Button Canvas.Left="610" Canvas.Top="420" Width="100" Height="50">Network Load</Button>
+                <Button Canvas.Left="720" Canvas.Top="420" Width="100" Height="50">HDD Load</Button>
+                <Button Canvas.Left="830" Canvas.Top="420" Width="100" Height="50">DotNet Load</Button>
+                <Button Canvas.Left="940" Canvas.Top="420" Width="100" Height="50" Click="ButtonDontPush_Click">Dont Push</Button>
+            </Canvas>
+        </StackPanel>
+    </Grid>
+
+</Window>
