@@ -32,6 +32,7 @@ namespace MetricsAgent.DAL.Migrations
                 .WithColumn("Value").AsInt32()
                 .WithColumn("Time").AsInt64();
         }
+
         public override void Down()
         {
             Delete.Table("cpumetrics");

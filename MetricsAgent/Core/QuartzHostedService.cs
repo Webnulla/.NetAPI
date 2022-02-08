@@ -17,14 +17,15 @@ namespace MetricsAgent
         private readonly IEnumerable<JobSchedule> _jobSchedules;
 
         public QuartzHostedService(
-            ISchedulerFactory schedulerFactory, 
-            IJobFactory jobFactory, 
+            ISchedulerFactory schedulerFactory,
+            IJobFactory jobFactory,
             IEnumerable<JobSchedule> jobSchedules)
         {
             _schedulerFactory = schedulerFactory;
             _jobFactory = jobFactory;
             _jobSchedules = jobSchedules;
         }
+
         public IScheduler Scheduler { get; set; }
 
         public async Task StartAsync(CancellationToken cancellationToken)
@@ -39,7 +40,10 @@ namespace MetricsAgent
 
                 await Scheduler.ScheduleJob(job, trigger, cancellationToken);
             }
+
+            await Scheduler.Start(cancellationToken);
         }
+
         private static IJobDetail CreateJobDetail(JobSchedule schedule)
         {
             var jobType = schedule.JobType;
@@ -49,6 +53,7 @@ namespace MetricsAgent
                 .WithDescription(jobType.Name)
                 .Build();
         }
+
         private static ITrigger CreateTrigger(JobSchedule schedule)
         {
             return TriggerBuilder

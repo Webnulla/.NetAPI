@@ -14,15 +14,21 @@ namespace MetricsAgent.Jobs
         public RamMetricJob(IRamMetricsRepository repository)
         {
             _repository = repository;
-            _ramPerformanceCounter = new PerformanceCounter("Memory", "Available MBytes");
+            _ramPerformanceCounter = new PerformanceCounter
+            (
+                "Memory",
+                "Available MBytes"
+            );
         }
 
         public Task Execute(IJobExecutionContext context)
         {
             var ramValue = Convert.ToInt32(_ramPerformanceCounter.NextValue());
+            var time = TimeSpan.FromSeconds(DateTimeOffset.UtcNow.ToUnixTimeSeconds());
             _repository.Create(new Model.RamMetrics
-            { 
-                Value = (int)ramValue 
+            {
+                Value = (int) ramValue,
+                Time = time
             });
             return Task.CompletedTask;
         }

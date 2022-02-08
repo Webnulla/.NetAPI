@@ -9,8 +9,8 @@ namespace MetricsAgent.DAL
 {
     public interface IDotNetMetricsReposiroty : IRepository<DotNetMetrics>
     {
-
     }
+
     public class DotNetMetricsReposiroty : IDotNetMetricsReposiroty
     {
         private const string ConnectionString = "Data Source=metrics.db;Version=3;Pooling=true;Max Pool Size=100";
@@ -20,6 +20,7 @@ namespace MetricsAgent.DAL
         {
             SqlMapper.AddTypeHandler(new TimeSpanHandler());
         }
+
         public void Create(DotNetMetrics item)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
@@ -32,6 +33,7 @@ namespace MetricsAgent.DAL
                     });
             }
         }
+
         public void Delete(int id)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
@@ -43,6 +45,7 @@ namespace MetricsAgent.DAL
                     });
             }
         }
+
         public void Update(DotNetMetrics item)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
@@ -56,19 +59,23 @@ namespace MetricsAgent.DAL
                     });
             }
         }
+
         public IList<DotNetMetrics> GetAll()
         {
             using (var connection = new SQLiteConnection(ConnectionString))
             {
-                var dotnetMetrics = connection.Query<DotNetMetrics>("SELECT Id, Time, Value FROM dotnetmetrics").ToList();
+                var dotnetMetrics = connection.Query<DotNetMetrics>("SELECT Id, Time, Value FROM dotnetmetrics")
+                    .ToList();
                 return dotnetMetrics;
             }
         }
+
         public DotNetMetrics GetById(int id)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
             {
-                var dotnetMetrics = connection.QuerySingle<DotNetMetrics>("SELECT Id, Time, Value FROM dotnetmetrics WHERE id=@id",
+                var dotnetMetrics = connection.QuerySingle<DotNetMetrics>(
+                    "SELECT Id, Time, Value FROM dotnetmetrics WHERE id=@id",
                     new
                     {
                         id = id
@@ -79,4 +86,3 @@ namespace MetricsAgent.DAL
         }
     }
 }
-

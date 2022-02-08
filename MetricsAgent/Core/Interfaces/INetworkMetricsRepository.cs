@@ -9,7 +9,6 @@ namespace MetricsAgent.DAL
 {
     public interface INetworkMetricsRepository : IRepository<NetworkMetrics>
     {
-
     }
 
     public class NetworkMetricsRepository : INetworkMetricsRepository
@@ -21,6 +20,7 @@ namespace MetricsAgent.DAL
         {
             SqlMapper.AddTypeHandler(new TimeSpanHandler());
         }
+
         public void Create(NetworkMetrics item)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
@@ -30,10 +30,10 @@ namespace MetricsAgent.DAL
                     {
                         value = item.Value,
                         time = item.Time.TotalSeconds
-                    });               
+                    });
             }
-            
         }
+
         public void Delete(int id)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
@@ -45,33 +45,37 @@ namespace MetricsAgent.DAL
                     });
             }
         }
+
         public void Update(NetworkMetrics item)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
             {
                 connection.Execute("UPDATE networkmetrics SET value=@value, time=@time WHERE id=@id",
-                new
-                {
-                    value = item.Value,
-                    time = item.Time.TotalSeconds,
-                    id = item.Id
-                });
+                    new
+                    {
+                        value = item.Value,
+                        time = item.Time.TotalSeconds,
+                        id = item.Id
+                    });
             }
-
         }
+
         public IList<NetworkMetrics> GetAll()
         {
             using (var connection = new SQLiteConnection(ConnectionString))
             {
-                var networkMetrics = connection.Query<NetworkMetrics>("SELECT Id, Time, Value FROM networkmetrics").ToList();
+                var networkMetrics = connection.Query<NetworkMetrics>("SELECT Id, Time, Value FROM networkmetrics")
+                    .ToList();
                 return networkMetrics;
-            }            
+            }
         }
+
         public NetworkMetrics GetById(int id)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
             {
-                var networkMetrics = connection.QuerySingle<NetworkMetrics>("SELECT Id, Time, Value FROM networkmetrics WHERE id=@id",
+                var networkMetrics = connection.QuerySingle<NetworkMetrics>(
+                    "SELECT Id, Time, Value FROM networkmetrics WHERE id=@id",
                     new
                     {
                         id = id

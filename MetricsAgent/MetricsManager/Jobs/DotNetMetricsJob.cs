@@ -18,11 +18,11 @@ namespace MetricsManager.Jobs
 
         public DotNetMetricsJob
         (
-            IMetricsAgentClient metricsAgentClient, 
-            IMapper mapper, 
+            IMetricsAgentClient metricsAgentClient,
+            IMapper mapper,
             IDotNetMetricsReposiroty dotNetMetricsReposiroty
         )
-        
+
         {
             _metricsAgentClient = metricsAgentClient;
             _mapper = mapper;
@@ -38,6 +38,7 @@ namespace MetricsManager.Jobs
                 var dotNetMetric = _mapper.Map<DotNetMetrics>(metricDto);
                 _dotNetMetricsReposiroty.Create(dotNetMetric);
             }
+
             return Task.CompletedTask;
         }
     }

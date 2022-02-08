@@ -9,7 +9,6 @@ namespace MetricsAgent.DAL
 {
     public interface IHddMetricsRepository : IRepository<HddMetrics>
     {
-
     }
 
     public class HddMetricsRepository : IHddMetricsRepository
@@ -21,6 +20,7 @@ namespace MetricsAgent.DAL
         {
             SqlMapper.AddTypeHandler(new TimeSpanHandler());
         }
+
         public void Create(HddMetrics item)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
@@ -33,6 +33,7 @@ namespace MetricsAgent.DAL
                     });
             }
         }
+
         public void Delete(int id)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
@@ -44,6 +45,7 @@ namespace MetricsAgent.DAL
                     });
             }
         }
+
         public void Update(HddMetrics item)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
@@ -57,6 +59,7 @@ namespace MetricsAgent.DAL
                     });
             }
         }
+
         public IList<HddMetrics> GetAll()
         {
             using (var connection = new SQLiteConnection(ConnectionString))
@@ -65,11 +68,13 @@ namespace MetricsAgent.DAL
                 return hddMetrics;
             }
         }
+
         public HddMetrics GetById(int id)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
             {
-                var hddMetrics = connection.QuerySingle<HddMetrics>("SELECT Id, Time, Value FROM hddmetrics WHERE id=@id",
+                var hddMetrics = connection.QuerySingle<HddMetrics>(
+                    "SELECT Id, Time, Value FROM hddmetrics WHERE id=@id",
                     new
                     {
                         id = id

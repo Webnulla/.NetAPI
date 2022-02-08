@@ -18,11 +18,11 @@ namespace MetricsManager.Jobs
 
         public RamMetricsJob
         (
-            IMetricsAgentClient metricsAgentClient, 
-            IMapper mapper, 
+            IMetricsAgentClient metricsAgentClient,
+            IMapper mapper,
             IRamMetricsRepository ramMetricsRepository
-        )        
-        
+        )
+
         {
             _metricsAgentClient = metricsAgentClient;
             _mapper = mapper;
@@ -38,6 +38,7 @@ namespace MetricsManager.Jobs
                 var ramMetric = _mapper.Map<RamMetrics>(metricDto);
                 _ramMetricsRepository.Create(ramMetric);
             }
+
             return Task.CompletedTask;
         }
     }

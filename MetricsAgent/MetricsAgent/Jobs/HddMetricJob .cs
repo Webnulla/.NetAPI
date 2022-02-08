@@ -14,15 +14,22 @@ namespace MetricsAgent.Jobs
         public HddMetricJob(IHddMetricsRepository repository)
         {
             _repository = repository;
-            _hddPerformanceCounter = new PerformanceCounter("Memory", "Available MBytes");
+            _hddPerformanceCounter = new PerformanceCounter
+            (
+                "PhysicalDisk",
+                "% Disk Time",
+                "0 C: D:"
+            );
         }
 
         public Task Execute(IJobExecutionContext context)
         {
             var hddMemory = Convert.ToInt32(_hddPerformanceCounter.NextValue());
+            var time = TimeSpan.FromSeconds(DateTimeOffset.UtcNow.ToUnixTimeSeconds());
             _repository.Create(new Model.HddMetrics
             {
-                Value = hddMemory
+                Value = hddMemory,
+                Time = time
             });
             return Task.CompletedTask;
         }

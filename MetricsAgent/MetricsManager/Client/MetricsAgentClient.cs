@@ -14,7 +14,7 @@ namespace MetricsManager.Client
         private readonly HttpClient _httpClient;
         private readonly ILogger<MetricsAgentClient> _logger;
 
-        public MetricsAgentClient(HttpClient httpClient,ILogger<MetricsAgentClient> logger)
+        public MetricsAgentClient(HttpClient httpClient, ILogger<MetricsAgentClient> logger)
         {
             _httpClient = httpClient;
             _logger = logger;
@@ -36,7 +36,7 @@ namespace MetricsManager.Client
             {
                 _logger.LogError(e.Message);
             }
-            
+
             return null;
         }
 
@@ -56,7 +56,7 @@ namespace MetricsManager.Client
             {
                 _logger.LogError(e.Message);
             }
-            
+
             return null;
         }
 
@@ -76,7 +76,7 @@ namespace MetricsManager.Client
             {
                 _logger.LogError(e.Message);
             }
-            
+
             return null;
         }
 
@@ -96,7 +96,7 @@ namespace MetricsManager.Client
             {
                 _logger.LogError(e.Message);
             }
-            
+
             return null;
         }
 
@@ -116,7 +116,7 @@ namespace MetricsManager.Client
             {
                 _logger.LogError(e.Message);
             }
-            
+
             return null;
         }
     }

@@ -18,7 +18,9 @@ namespace MetricsAgent.Controllers
         private readonly ILogger<HddMetricsController> _logger;
         private readonly IHddMetricsRepository _repository;
         private readonly IMapper _mapper;
-        public HddMetricsController(ILogger<HddMetricsController> logger, IHddMetricsRepository repository, IMapper mapper)
+
+        public HddMetricsController(ILogger<HddMetricsController> logger, IHddMetricsRepository repository,
+            IMapper mapper)
         {
             _logger = logger;
             _repository = repository;
@@ -26,7 +28,8 @@ namespace MetricsAgent.Controllers
         }
 
         [HttpGet("agent/{agentId}/from/{fromTime}/to/{toTime}")]
-        public IActionResult GetMetricsFromAgent([FromRoute] int agentId, [FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
+        public IActionResult GetMetricsFromAgent([FromRoute] int agentId, [FromRoute] TimeSpan fromTime,
+            [FromRoute] TimeSpan toTime)
         {
             _logger.LogInformation(1, "Working....");
             return Ok();
@@ -64,6 +67,7 @@ namespace MetricsAgent.Controllers
             {
                 response.Metrics.Add(_mapper.Map<HddMetrics, HddMetricsDto>(metric));
             }
+
             return Ok(response);
         }
     }

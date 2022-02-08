@@ -16,12 +16,13 @@ namespace MetricsManager.Controllers
     {
         private readonly ILogger<CpuMetricsController> _logger;
         private IMetricsAgentClient _metricsAgentClient;
+
         public CpuMetricsController(ILogger<CpuMetricsController> logger, IMetricsAgentClient metricsAgentClient)
         {
             _logger = logger;
             _metricsAgentClient = metricsAgentClient;
         }
-        
+
         /// <summary>
         /// Получает метрики CPU на заданном диапазоне времени
         /// </summary>
@@ -36,9 +37,8 @@ namespace MetricsManager.Controllers
         /// <returns>Список метрик, которые были сохранены в заданном диапазоне времени</returns>
         /// <response code="201">Если все хорошо</response>
         /// <response code="400">Если передали не правильные параvетры</response>
-
         [HttpGet("from/{fromTime}/to/{toTime}")]
-        public IActionResult GetMetricsFromAgent([FromRoute] TimeSpan fromTime, 
+        public IActionResult GetMetricsFromAgent([FromRoute] TimeSpan fromTime,
             [FromRoute] TimeSpan toTime)
         {
             _logger.LogInformation(($"starting new request to metrics agent"));
@@ -46,7 +46,7 @@ namespace MetricsManager.Controllers
                 new MetricsCreateRequest<CpuMetricsController>(fromTime, toTime));
             return Ok(metrics);
         }
-        
+
         /// <summary>
         /// Получает метрики CPU на заданном диапазоне времени
         /// </summary>
@@ -61,9 +61,8 @@ namespace MetricsManager.Controllers
         /// <returns>Список метрик, которые были сохранены в заданном диапазоне времени</returns>
         /// <response code="201">Если все хорошо</response>
         /// <response code="400">Если передали не правильные параvетры</response>
-
         [HttpGet("from/{fromTime}/to/{toTime}/percentiles/{percentile}")]
-        public IActionResult GetMetricsByPercentileFromAgent([FromRoute] TimeSpan fromTime, 
+        public IActionResult GetMetricsByPercentileFromAgent([FromRoute] TimeSpan fromTime,
             [FromRoute] TimeSpan toTime)
         {
             _logger.LogInformation(($"starting new request to metrics agent"));

@@ -14,7 +14,12 @@ namespace MetricsAgent.Jobs
         public DotNetMetricJob(IDotNetMetricsReposiroty repository)
         {
             _repository = repository;
-            _dotnetPerformanceCounter = new PerformanceCounter(".NET CLR Memory", "% Time in GC");
+            _dotnetPerformanceCounter = new PerformanceCounter
+            (
+                ".NET CLR Memory",
+                "% Time in GC",
+                "_Global_"
+            );
         }
 
         public Task Execute(IJobExecutionContext context)
