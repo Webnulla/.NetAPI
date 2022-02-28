@@ -27,7 +27,7 @@ namespace MetricsAgent.DAL
             using (var connection = new SQLiteConnection(ConnectionString))
             {
                 //запрос на вставку данных с плейсхолдерами для параметров
-                connection.Execute("INSERT INTO cpumetrics(value, time) VALUES(@value, @time)",
+                    connection.Execute("INSERT INTO cpumetrics(value, time) VALUES(@value, @time)",
                     //анонимный объект с параметрами запроса
                     new
                     {

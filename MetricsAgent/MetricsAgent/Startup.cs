@@ -29,7 +29,7 @@ namespace MetricsAgent
         }
 
         public IConfiguration Configuration { get; }
-        private const string ConnectionString = @"Data Source=metrics.db;Version=3;";
+        private const string ConnectionString = @"Data Source=metrics.db;Version=3;Pooling=True;Max Pool Size=100";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)

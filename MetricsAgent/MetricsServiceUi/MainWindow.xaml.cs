@@ -12,8 +12,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MetricsAgent.Controllers;
 using MetricsAgent.DAL;
 using MetricsAgent.Jobs;
+using MetricsAgent.Requests;
+using MetricsServiceUi.Client;
 
 namespace MetricsServiceUi
 {
@@ -26,10 +29,16 @@ namespace MetricsServiceUi
         {
             InitializeComponent();
         }
+        public void Cpu(TimeSpan from, TimeSpan to)
+        {
+            ManagerUi managerUi = new ManagerUi();
+            var request = managerUi.GetCpuMetrics(new MetricsCreateRequest<CpuMetricsController>(from, to));
+            CpuChart.ColumnSeriesValues[0].Values.Add(request.Metrics);
+        }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            CpuChart.ColumnSeriesValues[0].Values.Add(48d);
+            Cpu(TimeSpan.MinValue, TimeSpan.MaxValue);                       
         }
 
         private void ButtonDontPush_Click(object sender, RoutedEventArgs e)
@@ -39,7 +48,7 @@ namespace MetricsServiceUi
 
         private void RamButton_Click(object sender, RoutedEventArgs e)
         {
-            CpuChart.ColumnSeriesValues[0].Values.Add(47d);
+            CpuChart.ColumnSeriesValues[0].Values.Add(99d);
         }
     }
 }

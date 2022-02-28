@@ -35,7 +35,7 @@ namespace MetricsManager
         }
 
         public IConfiguration Configuration { get; }
-        private const string ConnectionString = @"Data Source=metrics.db;Version=3;";
+        private const string ConnectionString = @"Data Source=metrics.db;Version=3;Pooling=True;Max Pool Size=100";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -47,7 +47,7 @@ namespace MetricsManager
             services.AddSingleton<IRamMetricsRepository, RamMetricsRepository>();
             services.AddSingleton<IDotNetMetricsReposiroty, DotNetMetricsReposiroty>();
             services.AddHttpClient("metricsAgentClient",
-                client => { client.BaseAddress = new Uri("https://localhost:5001"); }).AddTransientHttpErrorPolicy(p =>
+                client => { client.BaseAddress = new Uri("https://localhost:44371"); }).AddTransientHttpErrorPolicy(p =>
                 p.WaitAndRetryAsync(3, _ =>
                     TimeSpan.FromMilliseconds(1000)));
             services.AddSingleton<IMetricsAgentClient, MetricsAgentClient>();
