@@ -1,120 +1,115 @@
-﻿using System;
-using System.Net.Http;
-using System.Security.AccessControl;
+﻿using MetricsAgent.Controllers;
 using MetricsAgent.Requests;
 using MetricsAgent.Responses;
-using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Text;
 using System.Text.Json;
-using MetricsManager.Controllers;
+using System.Threading.Tasks;
 
-namespace MetricsManager.Client
+namespace MetricsServiceUi.Client
 {
-    public class MetricsAgentClient : IMetricsAgentClient
+    public class ManagerUi
     {
-        private readonly HttpClient _httpClient;
-        private readonly ILogger<MetricsAgentClient> _logger;
+        private readonly string _client = "https://localhost:44304";
 
-        public MetricsAgentClient(HttpClient httpClient, ILogger<MetricsAgentClient> logger)
+        public AllCpuMetricsResponse GetCpuMetrics(MetricsCreateRequest<CpuMetricsController> request)
         {
-            _httpClient = httpClient;
-            _logger = logger;
-        }
-
-        public AllCpuMetricsResponse GetAllCpuMetrics(MetricsCreateRequest<CpuMetricsController> request)
-        {
+            HttpClient httpClient = new HttpClient();
             var fromParameter = request.From.TotalSeconds;
             var toParameter = request.To.TotalSeconds;
             var httpRequest = new HttpRequestMessage(HttpMethod.Get,
-                $"https://localhost:44371/api/metrics/cpu/from/{fromParameter}/to/{toParameter}");
+                $"{_client}/api/metrics/cpu/from/{fromParameter}/to/{toParameter}");
             try
             {
-                HttpResponseMessage response = _httpClient.SendAsync(httpRequest).Result;
+                HttpResponseMessage response = httpClient.SendAsync(httpRequest).Result;
                 using var responseStream = response.Content.ReadAsStreamAsync().Result;
                 return JsonSerializer.DeserializeAsync<AllCpuMetricsResponse>(responseStream).Result;
             }
             catch (Exception e)
             {
-                _logger.LogError(e.Message);
+                throw new Exception("Exception");
             }
 
             return null;
         }
-
-        public AllHddMetricsResponse GetAllHddMetrics(MetricsCreateRequest<HddMetricsController> request)
+        public AllHddMetricsResponse GetHddMetrics(MetricsCreateRequest<HddMetricsController> request)
         {
+            HttpClient httpClient = new HttpClient();
             var fromParameter = request.From.TotalSeconds;
             var toParameter = request.To.TotalSeconds;
             var httpRequest = new HttpRequestMessage(HttpMethod.Get,
-                $"https://localhost:44371/api/metrics/hdd/left/from/{fromParameter}/to/{toParameter}");
+                $"{_client}/api/metrics/hdd/from/{fromParameter}/to/{toParameter}");
             try
             {
-                HttpResponseMessage response = _httpClient.SendAsync(httpRequest).Result;
+                HttpResponseMessage response = httpClient.SendAsync(httpRequest).Result;
                 using var responseStream = response.Content.ReadAsStreamAsync().Result;
                 return JsonSerializer.DeserializeAsync<AllHddMetricsResponse>(responseStream).Result;
             }
             catch (Exception e)
             {
-                _logger.LogError(e.Message);
+                throw new Exception("Exception");
             }
 
             return null;
         }
-
-        public AllDotNetMetricsResponse GetAllDotNetMetrics(MetricsCreateRequest<DotNetMetricsController> request)
+        public AllDotNetMetricsResponse GetDotNetMetrics(MetricsCreateRequest<DotNetMetricsController> request)
         {
+            HttpClient httpClient = new HttpClient();
             var fromParameter = request.From.TotalSeconds;
             var toParameter = request.To.TotalSeconds;
             var httpRequest = new HttpRequestMessage(HttpMethod.Get,
-                $"https://localhost:44371/api/metrics/dotnet/errors-count/from/{fromParameter}/to/{toParameter}");
+                $"{_client}/api/metrics/dotnet/errors-count/from/{fromParameter}/to/{toParameter}");
             try
             {
-                HttpResponseMessage response = _httpClient.SendAsync(httpRequest).Result;
+                HttpResponseMessage response = httpClient.SendAsync(httpRequest).Result;
                 using var responseStream = response.Content.ReadAsStreamAsync().Result;
                 return JsonSerializer.DeserializeAsync<AllDotNetMetricsResponse>(responseStream).Result;
             }
             catch (Exception e)
             {
-                _logger.LogError(e.Message);
+                throw new Exception("Exception");
             }
 
             return null;
         }
-
-        public AllNetworkMetricsResponse GetAllNetworkMetrics(MetricsCreateRequest<NetworkMetricsController> request)
+        public AllNetworkMetricsResponse GetNetworkMetrics(MetricsCreateRequest<NetworkMetricsController> request)
         {
+            HttpClient httpClient = new HttpClient();
             var fromParameter = request.From.TotalSeconds;
             var toParameter = request.To.TotalSeconds;
             var httpRequest = new HttpRequestMessage(HttpMethod.Get,
-                $"https://localhost:44371/api/metrics/network/from/{fromParameter}/to/{toParameter}");
+                $"{_client}/api/metrics/network/from/{fromParameter}/to/{toParameter}");
             try
             {
-                HttpResponseMessage response = _httpClient.SendAsync(httpRequest).Result;
+                HttpResponseMessage response = httpClient.SendAsync(httpRequest).Result;
                 using var responseStream = response.Content.ReadAsStreamAsync().Result;
                 return JsonSerializer.DeserializeAsync<AllNetworkMetricsResponse>(responseStream).Result;
             }
             catch (Exception e)
             {
-                _logger.LogError(e.Message);
+                throw new Exception("Exception");
             }
 
             return null;
         }
-
-        public AllRamMetricsResponse GetAllRamMetrics(MetricsCreateRequest<RamMetricsController> request)
+        public AllRamMetricsResponse GetRamMetrics(MetricsCreateRequest<RamMetricsController> request)
         {
+            HttpClient httpClient = new HttpClient();
             var fromParameter = request.From.TotalSeconds;
             var toParameter = request.To.TotalSeconds;
             var httpRequest = new HttpRequestMessage(HttpMethod.Get,
-                $"https://localhost:44371/api/metrics/ram/available/from/{fromParameter}/to/{toParameter}");
+                $"{_client}/api/metrics/ram/available/from/{fromParameter}/to/{toParameter}");
             try
             {
-                HttpResponseMessage response = _httpClient.SendAsync(httpRequest).Result;
+                HttpResponseMessage response = httpClient.SendAsync(httpRequest).Result;
                 using var responseStream = response.Content.ReadAsStreamAsync().Result;
                 return JsonSerializer.DeserializeAsync<AllRamMetricsResponse>(responseStream).Result;
             }
             catch (Exception e)
             {
-                _logger.LogError(e.Message);
+                throw new Exception("Exception");
             }
 
             return null;

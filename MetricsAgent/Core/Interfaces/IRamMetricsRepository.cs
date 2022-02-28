@@ -9,7 +9,6 @@ namespace MetricsAgent.DAL
 {
     public interface IRamMetricsRepository : IRepository<RamMetrics>
     {
-
     }
 
     public class RamMetricsRepository : IRamMetricsRepository
@@ -21,6 +20,7 @@ namespace MetricsAgent.DAL
         {
             SqlMapper.AddTypeHandler(new TimeSpanHandler());
         }
+
         public void Create(RamMetrics item)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
@@ -33,6 +33,7 @@ namespace MetricsAgent.DAL
                     });
             }
         }
+
         public void Delete(int id)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
@@ -44,6 +45,7 @@ namespace MetricsAgent.DAL
                     });
             }
         }
+
         public void Update(RamMetrics item)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
@@ -57,6 +59,7 @@ namespace MetricsAgent.DAL
                     });
             }
         }
+
         public IList<RamMetrics> GetAll()
         {
             using (var connection = new SQLiteConnection(ConnectionString))
@@ -65,11 +68,13 @@ namespace MetricsAgent.DAL
                 return ramMetrics;
             }
         }
+
         public RamMetrics GetById(int id)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
             {
-                var ramMetrics = connection.QuerySingle<RamMetrics>("SELECT Id, Time, Value FROM rammetrics WHERE id=@id",
+                var ramMetrics = connection.QuerySingle<RamMetrics>(
+                    "SELECT Id, Time, Value FROM rammetrics WHERE id=@id",
                     new
                     {
                         id = id

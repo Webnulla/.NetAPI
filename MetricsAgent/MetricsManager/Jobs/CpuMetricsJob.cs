@@ -18,11 +18,11 @@ namespace MetricsManager.Jobs
 
         public CpuMetricsJob
         (
-            IMetricsAgentClient metricsAgentClient, 
-            IMapper mapper, 
+            IMetricsAgentClient metricsAgentClient,
+            IMapper mapper,
             ICpuMetricsRepository cpuMetricsRepository
-        )        
-        
+        )
+
         {
             _metricsAgentClient = metricsAgentClient;
             _mapper = mapper;
@@ -38,6 +38,7 @@ namespace MetricsManager.Jobs
                 var cpuMetric = _mapper.Map<CpuMetrics>(metricDto);
                 _cpuMetricsRepository.Create(cpuMetric);
             }
+
             return Task.CompletedTask;
         }
     }

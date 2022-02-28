@@ -9,8 +9,8 @@ namespace MetricsAgent.DAL
 {
     public interface ICpuMetricsRepository : IRepository<CpuMetrics>
     {
-
     }
+
     public class CpuMetricsRepository : ICpuMetricsRepository
     {
         private const string ConnectionString = "Data Source=metrics.db;Version=3;Pooling=true;Max Pool Size=100";
@@ -21,12 +21,13 @@ namespace MetricsAgent.DAL
             //парсилка типа TimeSpan в качестве подсказки для SQLite
             SqlMapper.AddTypeHandler(new TimeSpanHandler());
         }
+
         public void Create(CpuMetrics item)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
             {
                 //запрос на вставку данных с плейсхолдерами для параметров
-                connection.Execute("INSERT INTO cpumetrics(value, time) VALUES(@value, @time)",
+                    connection.Execute("INSERT INTO cpumetrics(value, time) VALUES(@value, @time)",
                     //анонимный объект с параметрами запроса
                     new
                     {
@@ -35,6 +36,7 @@ namespace MetricsAgent.DAL
                     });
             }
         }
+
         public void Delete(int id)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
@@ -46,6 +48,7 @@ namespace MetricsAgent.DAL
                     });
             }
         }
+
         public void Update(CpuMetrics item)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
@@ -59,6 +62,7 @@ namespace MetricsAgent.DAL
                     });
             }
         }
+
         public IList<CpuMetrics> GetAll()
         {
             using (var connection = new SQLiteConnection(ConnectionString))
@@ -69,11 +73,13 @@ namespace MetricsAgent.DAL
                 return cpuMetrics;
             }
         }
+
         public CpuMetrics GetById(int id)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
             {
-                var cpuMetrics = connection.QuerySingle<CpuMetrics>("SELECT Id, Time, Value FROM cpumetrics WHERE id=@id",
+                var cpuMetrics = connection.QuerySingle<CpuMetrics>(
+                    "SELECT Id, Time, Value FROM cpumetrics WHERE id=@id",
                     new
                     {
                         id = id

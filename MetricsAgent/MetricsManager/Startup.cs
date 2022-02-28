@@ -35,7 +35,7 @@ namespace MetricsManager
         }
 
         public IConfiguration Configuration { get; }
-        private const string ConnectionString = @"Data Source=metrics.db;Version=3;";
+        private const string ConnectionString = @"Data Source=metrics.db;Version=3;Pooling=True;Max Pool Size=100";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -46,11 +46,10 @@ namespace MetricsManager
             services.AddSingleton<INetworkMetricsRepository, NetworkMetricsRepository>();
             services.AddSingleton<IRamMetricsRepository, RamMetricsRepository>();
             services.AddSingleton<IDotNetMetricsReposiroty, DotNetMetricsReposiroty>();
-            services.AddHttpClient("metricsAgentClient", client =>
-            {
-                client.BaseAddress = new Uri("https://localhost:5001");
-            }).AddTransientHttpErrorPolicy(p => p.WaitAndRetryAsync(3, _=>
-                TimeSpan.FromMilliseconds(1000)));
+            services.AddHttpClient("metricsAgentClient",
+                client => { client.BaseAddress = new Uri("https://localhost:44371"); }).AddTransientHttpErrorPolicy(p =>
+                p.WaitAndRetryAsync(3, _ =>
+                    TimeSpan.FromMilliseconds(1000)));
             services.AddSingleton<IMetricsAgentClient, MetricsAgentClient>();
             var mapperConfiguration = new MapperConfiguration(mp => mp.AddProfile(new MapperProfile()));
             var mapper = mapperConfiguration.CreateMapper();
@@ -71,7 +70,7 @@ namespace MetricsManager
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "API сервиса агента сбора метри",
+                    Title = "API сервиса агента сбора метрик",
                     Description = "Тут можно поиграть с api нашего сервиса",
                     TermsOfService = new Uri("https://example.com/terms"),
                     Contact = new OpenApiContact
@@ -111,10 +110,7 @@ namespace MetricsManager
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
 }

@@ -18,11 +18,11 @@ namespace MetricsManager.Jobs
 
         public HddMetricsJob
         (
-            IMetricsAgentClient metricsAgentClient, 
-            IMapper mapper, 
+            IMetricsAgentClient metricsAgentClient,
+            IMapper mapper,
             IHddMetricsRepository hddMetricsRepository
         )
-        
+
         {
             _metricsAgentClient = metricsAgentClient;
             _mapper = mapper;
@@ -38,6 +38,7 @@ namespace MetricsManager.Jobs
                 var hddMetric = _mapper.Map<HddMetrics>(metricDto);
                 _hddMetricsRepository.Create(hddMetric);
             }
+
             return Task.CompletedTask;
         }
     }

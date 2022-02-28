@@ -18,11 +18,11 @@ namespace MetricsManager.Jobs
 
         public NetworkMetricsJob
         (
-            IMetricsAgentClient metricsAgentClient, 
-            IMapper mapper, 
+            IMetricsAgentClient metricsAgentClient,
+            IMapper mapper,
             INetworkMetricsRepository networkMetricsRepository
-        )        
-        
+        )
+
         {
             _metricsAgentClient = metricsAgentClient;
             _mapper = mapper;
@@ -38,6 +38,7 @@ namespace MetricsManager.Jobs
                 var networkMetric = _mapper.Map<NetworkMetrics>(metricDto);
                 _networkMetricsRepository.Create(networkMetric);
             }
+
             return Task.CompletedTask;
         }
     }
